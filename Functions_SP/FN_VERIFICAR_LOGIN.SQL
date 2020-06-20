@@ -21,3 +21,7 @@ BEGIN
 		RETURN FALSE;
 END;
 $$  LANGUAGE plpgsql
+
+/*
+SELECT FN_VERIFCAR_LOGIN('testedebancov4@alugo.com', 'aaabbbccc')
+*/
