@@ -1,0 +1,2 @@
+INSERT INTO SEXO(COD_SEXO, DESCRICAO)
+VALUES(1,'Feminino'), (2,'Masculino'), (3,'NÃO DECLARADO');
