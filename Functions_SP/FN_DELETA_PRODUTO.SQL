@@ -1,7 +1,9 @@
 CREATE OR REPLACE FUNCTION FN_DELETA_PRODUTO(P_ID_PRODUTO UUID)
 RETURNS BOOLEAN AS $$
 BEGIN
-	delete from produtos
+
+	update produtos
+	set isdeletado = true
 	where id_produto =  P_ID_PRODUTO;
 	
 	RETURN TRUE;
