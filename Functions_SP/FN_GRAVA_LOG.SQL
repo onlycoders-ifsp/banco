@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION saveLog() RETURNS trigger AS $$
+CREATE OR REPLACE FUNCTION FN_GRAVA_LOG() RETURNS trigger AS $$
        BEGIN
          IF TG_OP = 'INSERT'
          THEN INSERT INTO LOG.LOG (
@@ -22,7 +22,6 @@ CREATE OR REPLACE FUNCTION saveLog() RETURNS trigger AS $$
                TG_TABLE_SCHEMA, TG_RELNAME, TG_OP, row_to_json(OLD)
              );
              RETURN OLD;
-		 ELSE IF TAG IN ('ALTER TABLE')
-         END IF;
-       END;
+       END IF;
+	END;
 $$ LANGUAGE 'plpgsql' SECURITY DEFINER;

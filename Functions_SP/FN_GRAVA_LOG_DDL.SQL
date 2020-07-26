@@ -28,17 +28,11 @@ DECLARE
 
 BEGIN
 
-  IF tg_tag like 'DROP%'
-
-  THEN
-
-    FOR r IN SELECT * FROM pg_event_trigger_ddl_commands() 
-
-    LOOP
-
-      INSERT INTO log.log_ddl (operacao, object_name) VALUES (tg_tag, r.object_identity);
-
-    END LOOP;
+  IF tg_tag like 'DROP%' THEN
+	  
+	INSERT INTO log.log_ddl (operacao, object_name) 
+	SELECT TG_TAG, object_identity
+	FROM pg_event_trigger_dropped_objects() ;
 
   END IF;
 
