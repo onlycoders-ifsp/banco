@@ -1,18 +1,18 @@
 /*************************************************************
 Função/Procedimento: FN_INSERIR_USUARIO.
 Objetivo: Responsável pelo cadastro das informações de usuário.
-Parâmetros: Nome, CPF, Logradouro, Numero, CEP, Email, Sexo, Data_Nascimento, Senha, Telefone(null), Celular(null).
+Parâmetros: Nome, CPF, Email, Login(null), Sexo, Data_Nascimento, Senha, Telefone(null), Celular(null).
 Exemplo de execução:
 START TRANSACTION;
-SELECT FN_INSERIR_USUARIO('Mais um pra confirmar', '1122334466', 'Testando', '123', '1234567890', 
-						  'testedebancov3@alugo.com', 2, '2020-06-05', 
-						  'aaabbbccc', '123456780', '12345678911')
+SELECT FN_INSERIR_USUARIO('miranha', '1111122222', 'piter_parq@alugo.com', 'Masculino', 
+						  '2020-06-05', 'aaabbbccc', 'feijão_queimado', '1122334455', '1122334433');
 COMMIT;
 **************************************************************/
 
-CREATE OR REPLACE FUNCTION FN_INSERIR_USUARIO(P_NOME TEXT, P_CPF VARCHAR(14), P_LOGRADOURO TEXT, P_NUMERO VARCHAR(10), 
-								P_CEP CHAR(10), P_EMAIL VARCHAR(50), P_SEXO VARCHAR(50), P_NASCIMENTO TEXT, 
-								P_SENHA TEXT, P_LOGIN VARCHAR(50) DEFAULT NULL, P_TELEFONE VARCHAR(20) DEFAULT NULL, P_CELULAR VARCHAR(20) DEFAULT NULL)
+CREATE OR REPLACE FUNCTION 
+FN_INSERIR_USUARIO(P_NOME TEXT, P_CPF VARCHAR(14), P_EMAIL VARCHAR(50), P_SEXO VARCHAR(50), 
+					P_NASCIMENTO TEXT, P_SENHA TEXT, P_LOGIN VARCHAR(50) DEFAULT NULL, 
+					P_TELEFONE VARCHAR(20) DEFAULT NULL, P_CELULAR VARCHAR(20) DEFAULT NULL)
 RETURNS BOOLEAN AS $$
 DECLARE P_ID_USUARIO UUID;
 DECLARE OK BOOLEAN = FALSE;
@@ -34,18 +34,12 @@ BEGIN
 		INSERT INTO USUARIOS(
 		NOME,
 		CPF,
-		LOGRADOURO,
-		NUMERO,
-		CEP,
 		EMAIL,
 		SEXO,
 		DATA_NASCIMENTO)
 		VALUES(
 		P_NOME,
 		P_CPF,
-		P_LOGRADOURO,
-		P_NUMERO,
-		P_CEP,
 		P_EMAIL,
 		P_SEXO,
 		P_DATA_NASCIMENTO)
