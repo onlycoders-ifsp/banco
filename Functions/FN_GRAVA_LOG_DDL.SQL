@@ -1,45 +1,45 @@
-CREATE OR REPLACE FUNCTION log_ddl()
+CREATE OR REPLACE FUNCTION LOG_DDL()
 
-  RETURNS event_trigger AS $$
+  RETURNS EVENT_TRIGGER AS $$
 
 DECLARE
   
 BEGIN
 
-  IF tg_tag not like 'DROP%'
+  IF UPPER(TG_TAG) NOT LIKE 'DROP%'
 
   THEN
 
-    INSERT INTO log.log_ddl (operacao, object_name) 
-	SELECT TG_TAG, object_identity
-	FROM pg_event_trigger_ddl_commands(); --(tg_tag, r.object_identity);
+    INSERT INTO LOG.LOG_DDL (OPERACAO, OBJETO) 
+	SELECT TG_TAG, OBJECT_IDENTITY
+	FROM PG_EVENT_TRIGGER_DDL_COMMANDS(); --(TG_TAG, R.OBJECT_IDENTITY);
 
   END IF;
 
 END;
 
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE 'plpgsql';
 
-CREATE OR REPLACE FUNCTION log_ddl_drop()
+CREATE OR REPLACE FUNCTION LOG_DDL_DROP()
 
-  RETURNS event_trigger AS $$
+  RETURNS EVENT_TRIGGER AS $$
 
 DECLARE
 
 BEGIN
 
-  IF tg_tag like 'DROP%' THEN
+  IF UPPER(TG_TAG) LIKE 'DROP%' THEN
 	  
-	INSERT INTO log.log_ddl (operacao, object_name) 
-	SELECT TG_TAG, object_identity
-	FROM pg_event_trigger_dropped_objects() ;
+	INSERT INTO LOG.LOG_DDL (OPERACAO, OBJETO) 
+	SELECT TG_TAG, OBJECT_IDENTITY
+	FROM PG_EVENT_TRIGGER_DROPPED_OBJECTS() ;
 
   END IF;
 
 END;
 
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE 'plpgsql';
 
-CREATE EVENT TRIGGER log_ddl_info ON ddl_command_end EXECUTE PROCEDURE log_ddl();
+CREATE EVENT TRIGGER LOG_DDL_INFO ON DDL_COMMAND_END EXECUTE PROCEDURE LOG_DDL();
 
-CREATE EVENT TRIGGER log_ddl_drop_info ON sql_drop EXECUTE PROCEDURE log_ddl_drop();
+CREATE EVENT TRIGGER LOG_DDL_DROP_INFO ON SQL_DROP EXECUTE PROCEDURE LOG_DDL_DROP();

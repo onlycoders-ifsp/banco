@@ -1,11 +1,11 @@
 /*************************************************************
 Função/Procedimento: FN_INSERIR_USUARIO.
 Objetivo: Responsável pelo cadastro das informações de usuário.
-Parâmetros: Nome, CPF, Email, Login(null), Sexo, Data_Nascimento, Senha, Telefone(null), Celular(null).
+Parâmetros: Nome, CPF, Email, Sexo, Data_Nascimento, Senha, Login(null), Telefone(null), Celular(null).
 Exemplo de execução:
 START TRANSACTION;
-SELECT FN_INSERIR_USUARIO('miranha', '1111122222', 'piter_parq@alugo.com', 'Masculino', 
-						  '2020-06-05', 'aaabbbccc', 'feijão_queimado', '1122334455', '1122334433');
+SELECT FN_INSERIR_USUARIO('Roberval', '11111222223', 'piter_parq@alugo.com', 'Masculino', 
+						  '2020-01-05', 'aaabbbccc', 'feijão_queimado', '1122334455', '1122334433');
 COMMIT;
 **************************************************************/
 
@@ -19,7 +19,13 @@ DECLARE OK BOOLEAN = FALSE;
 DECLARE P_DATA_NASCIMENTO DATE;
 BEGIN
 	
-	P_DATA_NASCIMENTO := TO_DATE(P_NASCIMENTO, 'YYYY-MM-DD');
+	BEGIN
+		P_DATA_NASCIMENTO := TO_DATE(P_NASCIMENTO, 'YYYY-MM-DD');
+		
+		EXCEPTION WHEN OTHERS THEN
+			PERFORM FN_REPORT_ERRO('ERRO AO INSERIR O USUARIO', sqlstate, sqlerrm, 'FN_INSERIR_USUARIO', NULL, CURRENT_QUERY());
+			RETURN FALSE;
+	END;
 	
 	/*
 	SELECT FN_GET_ID_SEXO(P_SEXO) INTO P_ID_SEXO;
@@ -46,7 +52,7 @@ BEGIN
 		RETURNING ID_USUARIO INTO P_ID_USUARIO;
 	
 		EXCEPTION WHEN OTHERS THEN
-			PERFORM FN_REPORT_ERRO('ERRO AO INSERIR O USUARIO', sqlstate, sqlerrm);
+			PERFORM FN_REPORT_ERRO('ERRO AO INSERIR O USUARIO', sqlstate, sqlerrm, 'FN_INSERIR_USUARIO', 'USUARIOS', CURRENT_QUERY());
 			RETURN FALSE;
 	END;
 	

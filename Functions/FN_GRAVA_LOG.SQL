@@ -1,27 +1,27 @@
-CREATE OR REPLACE FUNCTION FN_GRAVA_LOG() RETURNS trigger AS $$
+CREATE OR REPLACE FUNCTION FN_GRAVA_LOG() RETURNS TRIGGER AS $$
        BEGIN
-         IF TG_OP = 'INSERT'
+         IF UPPER(TG_OP) = 'INSERT'
          THEN INSERT INTO LOG.LOG (
-                schemaname, tablename, operation, new_val
+                SCHEMA, TABELA, OPERACAO, REGISTRO_NOVO
               ) VALUES (
-                TG_TABLE_SCHEMA, TG_RELNAME, TG_OP, row_to_json(NEW)
+                TG_TABLE_SCHEMA, TG_RELNAME, TG_OP, ROW_TO_JSON(NEW)
               );
            RETURN NEW;
-         ELSEIF  TG_OP = 'UPDATE'
+         ELSEIF UPPER(TG_OP) = 'UPDATE'
          THEN
-           INSERT INTO log.log (
-             schemaname, tablename, operation, new_val, old_val
+           INSERT INTO LOG.LOG (
+             SCHEMA, TABELA, OPERACAO, REGISTRO_NOVO, REGISTRO_ANTIGO
            )
-           VALUES (TG_TABLE_SCHEMA,TG_RELNAME , TG_OP, row_to_json(NEW), row_to_json(OLD));
+           VALUES (TG_TABLE_SCHEMA,TG_RELNAME , TG_OP, ROW_TO_JSON(NEW), ROW_TO_JSON(OLD));
            RETURN NEW;
-         ELSIF TG_OP = 'DELETE'
+         ELSIF UPPER(TG_OP) = 'DELETE'
          THEN
-           INSERT INTO log.log
-             (schemaname, tablename, operation, old_val)
+           INSERT INTO LOG.LOG
+             (SCHEMA, TABELA, OPERACAO, REGISTRO_ANTIGO)
              VALUES (
-               TG_TABLE_SCHEMA, TG_RELNAME, TG_OP, row_to_json(OLD)
+               TG_TABLE_SCHEMA, TG_RELNAME, TG_OP, ROW_TO_JSON(OLD)
              );
              RETURN OLD;
        END IF;
 	END;
-$$ LANGUAGE 'plpgsql' SECURITY DEFINER;
+$$ LANGUAGE 'plpgsql'

@@ -1,20 +1,13 @@
-CREATE TABLE log.log_ddl (
-
-  id_ddl serial primary key,
-
-  operacao text,
-  
-  usuario text default current_user,
-
-  object_name text,
-  
-  query text default current_query(),
-
-  data timestamptz DEFAULT timezone('America/Sao_Paulo', CURRENT_TIMESTAMP)
-
+CREATE TABLE LOG.LOG_DDL (
+	ID SERIAL PRIMARY KEY,
+	OPERACAO TEXT,  
+	USUARIO TEXT DEFAULT CURRENT_USER,
+	OBJETO TEXT,  
+	QUERY TEXT DEFAULT CURRENT_QUERY(),
+	DATA TIMESTAMPTZ DEFAULT TIMEZONE('AMERICA/SAO_PAULO', CURRENT_TIMESTAMP)
 );
 
-create unique index ix_tbl_log_ddl on log.log_ddl(id_ddl, operacao, usuario, object_name, query, data)
+CREATE UNIQUE INDEX IX_TBL_LOG_DDL ON LOG.LOG_DDL(ID, OPERACAO, USUARIO, OBJETO, QUERY, DATA)
 
-REVOKE DELETE, UPDATE ON LOG.log FROM PUBLIC
-REVOKE DELETE, UPDATE ON LOG.log_DDL FROM PUBLIC
+--REVOKE DELETE, UPDATE ON LOG.LOG FROM PUBLIC
+--REVOKE DELETE, UPDATE ON LOG.LOG_DDL FROM PUBLIC

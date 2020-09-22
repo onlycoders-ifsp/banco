@@ -1,14 +1,14 @@
-create schema log;
-CREATE TABLE log.log (
-        id             serial,
-        date           TIMESTAMPTZ DEFAULT timezone('America/Sao_Paulo', CURRENT_TIMESTAMP),
-        schemaname     text,
-        tablename      text,
-        operation      text,
-        who            text DEFAULT current_user,
-        new_val        json,
-        old_val        json,
-		QUERY		   TEXT DEFAULT CURRENT_QUERY()
+CREATE SCHEMA LOG;
+CREATE TABLE LOG.LOG (
+	ID				SERIAL PRIMARY KEY,
+	DATA_LOG		TIMESTAMPTZ DEFAULT TIMEZONE('AMERICA/SAO_PAULO', CURRENT_TIMESTAMP),
+	SCHEMA			TEXT,
+	TABELA			TEXT,
+	OPERACAO		TEXT,
+	USUARIO			TEXT DEFAULT CURRENT_USER,
+	REGISTRO_NOVO	JSON,
+	REGISTRO_ANTIGO JSON,
+	QUERY			TEXT DEFAULT CURRENT_QUERY()
 );
 
-create unique index ix_tbl_log on log.log(id, date, schemaname, tablename, operation, who)
+CREATE UNIQUE INDEX IX_TBL_LOG ON LOG.LOG(ID, DATA_LOG, SCHEMA, TABELA, OPERACAO, USUARIO)
