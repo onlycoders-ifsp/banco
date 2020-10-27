@@ -13,6 +13,14 @@ CREATE TABLE USUARIOS(
 	SEXO VARCHAR(50),
 	ATIVO BOOLEAN DEFAULT TRUE,
 	DATA_NASCIMENTO DATE,
+	CELULAR TEXT
+	estado varchar(50),
+	cidade varchar(50),
+	cep varchar(10),
+	endereco varchar(100),
+	numero varchar(10),
+	complemento varchar(100),
+	bairro varchar(100),
 	DATA_INCLUSAO TIMESTAMPTZ DEFAULT timezone('America/Sao_Paulo', CURRENT_TIMESTAMP),
 	DATA_MODIFICACAO TIMESTAMPTZ NULL,
 	PRIMARY KEY(ID_USUARIO)
