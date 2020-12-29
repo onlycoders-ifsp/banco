@@ -50,7 +50,6 @@ begin
         LOOP
             IF v_aluguel_INICIO IS NOT NULL THEN
                 v_aluguel_INICIO = v_aluguel_INICIO || ',' || v;
-				RAISE INFO '%', v_aluguel_INICIO;
             ELSE
                 v_aluguel_INICIO = v;
             END IF;
