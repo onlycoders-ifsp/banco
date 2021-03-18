@@ -46,7 +46,7 @@ BEGIN
                             FROM ALUGUEIS A
                             GROUP BY A.ID_PRODUTO) AA
                  ON AA.ID_PRODUTO = P.ID_PRODUTO
-                 WHERE ((P.ATIVO AND (P_ID_PRODUTO IS NULL AND U.ID_USUARIO = UUID(P_ID_USUARIO)) AND OP = 1) --Todos os produtos ativo do usuario
+                 WHERE (((P_ID_PRODUTO IS NULL AND U.ID_USUARIO = UUID(P_ID_USUARIO)) AND OP = 1) --Todos os produtos ativo do usuario
                 OR (P.ATIVO AND NOT P.PUBLICADO AND (CASE WHEN P_ID_USUARIO IS NULL THEN '0' ELSE P_ID_USUARIO END <> CAST(P.ID_USUARIO AS TEXT)) AND OP = 2) --Produtos não publicados
                 OR (P.ATIVO AND P.PUBLICADO AND (LOWER(P.NOME) LIKE CONCAT('%',LOWER(P_ID_PRODUTO),'%')) AND OP = 3) --Pesquisa de produto pelo id ou nome
                 OR (P.ATIVO AND P.PUBLICADO AND (CASE WHEN P_ID_USUARIO IS NULL THEN '0' ELSE P_ID_USUARIO END <> CAST(P.ID_USUARIO AS TEXT)) AND OP = 4) --Retorna todos os produtos que estão ativo E PUBLICADOS

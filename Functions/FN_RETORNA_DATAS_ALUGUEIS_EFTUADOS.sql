@@ -74,7 +74,8 @@ begin
 					ARRAY_TO_STRING(ARRAY_AGG(to_char(DATA_FIM,'YYYY-MM-DD')),',')
 					from alugueis A
 					where A.ID_PRODUTO = UUID(P_ID_PRODUTO)
-					and to_date(to_char(DATA_FIM,'YYYY-MM-DD'),'YYYY-MM-DD') >= current_date);
+					and to_date(to_char(DATA_FIM,'YYYY-MM-DD'),'YYYY-MM-DD') >= current_date
+					and cod_status_aluguel not in (3,4,5,6,8,16,17,18,19));
 					
 	IF v_alugueis is null then
 		return '';

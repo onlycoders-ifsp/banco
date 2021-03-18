@@ -4,7 +4,7 @@ CREATE OR REPLACE FUNCTION
 BEGIN
 
     RETURN QUERY
-	SELECT U.nome, COMENTARIO, NOTA
+	SELECT U.nome,av.COMENTARIO, av.NOTA, u.capa_foto, to_char(av.data_inclusao,'YYYY-MM-DD')
 	FROM avaliacoes AV
 	INNER JOIN alugueis A
 		on AV.id_aluguel = A.id_aluguel

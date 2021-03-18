@@ -12,8 +12,8 @@ BEGIN
 				AND (A.ID_PRODUTO = P_ID_PRODUTO_USUARIO --Média do produto
                  OR  A.ID_USUARIO = P_ID_PRODUTO_USUARIO --Média de locatario
 				 OR  P.ID_USUARIO = P_ID_PRODUTO_USUARIO) --Média de locador
-                 OR (P.ID_USUARIO = P_ID_PRODUTO_USUARIO
-                  AND P_TIPO_AVALICAO = 4));
+                 OR (P.ID_USUARIO = P_ID_PRODUTO_USUARIO 
+                  AND P_TIPO_AVALICAO = 4)); --Média geral dos produtos
 
     IF V_NOTA IS NULL THEN
         RETURN 0.0;
